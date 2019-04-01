@@ -25,19 +25,22 @@ public class Main {
 	
 		long startTime = System.currentTimeMillis(); 
 		
-		VectorSpaceModel model = new VectorSpaceModel(scripts, 3000);	
+		/* Step 1 */
+		/* Select N, dimension of vectorspace */ 
+		VectorSpaceModel model = new VectorSpaceModel(scripts, 100);	
 		model.build();
 		
 		ArrayList<String> positive = new ArrayList<String>();
 		ArrayList<String> negative = new ArrayList<String>();
 		
-		positive.add("belle");
-		positive.add("logan");
+		/* Step 2 */
+		/* You can add your positive query words */ 
+		positive.add("dancers");
 		
 		model.printRank(model.Query(positive, negative));
 		
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println(endTime - startTime);
+		System.out.println("Actual Execution Time : " + (endTime - startTime) + "ms");
 	}
 }

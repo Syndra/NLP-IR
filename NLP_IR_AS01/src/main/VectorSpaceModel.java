@@ -79,7 +79,7 @@ public class VectorSpaceModel {
 		/**
 		 * IDF
 		 */
-		for(int i = 0; i < N; i ++) {
+		for(int i = 0; i < N && idf_vector[i] != 0; i ++) {
 			idf_vector[i] = (float) Math.log((float)numOfScript / idf_vector[i]) / (float)Math.log(2);
 		}
 		
@@ -95,6 +95,16 @@ public class VectorSpaceModel {
 	}
 	
 	public int[] Query(ArrayList<String> positive, ArrayList<String> negative) {
+		
+		boolean hasToRebuild = false;
+		
+		
+		  for(String elem : positive) { if(!this.termList.contains(elem)) {
+		  this.addTerm(elem); hasToRebuild = true; } }
+		  
+		  if(hasToRebuild) build();
+		 
+		
 		int [] res = new int[this.numOfScript];
 		
 		float[] query_vector = new float[this.N];
@@ -181,5 +191,15 @@ public class VectorSpaceModel {
 		}
 		
 		return res;
+	}
+	
+	private void addTerm(String terms) {
+		
+		/*
+		 * Add into termList
+		 **/
+		
+		this.N += 1;
+		this.termList.add(terms);
 	}
 }
