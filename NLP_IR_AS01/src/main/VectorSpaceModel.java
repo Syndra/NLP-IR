@@ -92,8 +92,6 @@ public class VectorSpaceModel {
 				weight_vector[i][index] = tf_vector[i][index] * idf_vector[index];
 			}
 		}
-		
-		System.out.println("done.");
 	}
 	
 	public int[] Query(ArrayList<String> positive, ArrayList<String> negative) {
@@ -119,13 +117,27 @@ public class VectorSpaceModel {
 		for(int i = 0 ; i < numOfScript; i ++) 
 		{
 			angle[i] = getAngle(query_vector, this.weight_vector[i]);
-			System.out.println(angle[i]);
 			sortMap.put(i, angle[i]);
 		}
 		
 		Iterator it = CsvConverter.sortByValueInverse(sortMap).iterator();
 		
+		int i = 0 ;
+		while(it.hasNext()) {
+			int index = (int) it.next();
+			res[i] = index;
+			i++;
+		}
+		
 		return res;
+	}
+	
+	public void printRank(int[] queryResult) 
+	{
+		for(int i=0; i < numOfScript; i ++) 
+		{
+			System.out.println("Rank " + (i+1) + " : " + this.scripts[queryResult[i]].scriptName);
+		}
 	}
 	
 	private float getAngle(float[] source, float[] target) {
