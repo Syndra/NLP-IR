@@ -27,7 +27,7 @@ public class Main {
 		
 		/* Step 1 */
 		/* Select N, dimension of vectorspace */ 
-		VectorSpaceModel model = new VectorSpaceModel(scripts, 300);	
+		VectorSpaceModel model = new VectorSpaceModel(scripts, 30);	
 		model.build();
 		
 		ArrayList<String> positive = new ArrayList<String>();
@@ -39,9 +39,9 @@ public class Main {
 		
 		model.printRank(model.Query(positive, negative));
 		
-		SVD svd = new SVD(model.weight_vector);
+		SVD svd = new SVD(model.weight_vector, 10);
 		
-		svd.print();
+		//svd.print();
 		
 		long endTime = System.currentTimeMillis();
 		

@@ -1,22 +1,39 @@
 package main;
 
-//import org.apache.commons.math3.linear.*;
-
-import Jama.Matrix;
-import Jama.SingularValueDecomposition;
+import org.apache.commons.math3.linear.*;
 
 public class SVD {
 	
-	/*RealMatrix origin;
+	RealMatrix origin;
 	RealMatrix U;
 	RealMatrix S;
 	RealMatrix V;
-	RealMatrix Vt;*/
+	RealMatrix Vt;
 	
-	public SVD(double[][] mat) {
-		double[][] matrixData = { {1d,2d,3d}, {2d,5d,3d}};
+	RealMatrix _U;
+	RealMatrix _S;
+	RealMatrix _V;
+	RealMatrix _Vt;
+	
+	RealMatrix output;
+	
+	private final int ADD_DOC = 20;
+	
+	public SVD(double[][] mat, int choose_words) {
 		
-		/*RealMatrix m = MatrixUtils.createRealMatrix(mat);
+		choose_words --;
+		
+		int MAX_SIZE = (mat.length > mat[0].length) ? mat.length : mat[0].length;
+		
+		double[][] mat_cal = new double[MAX_SIZE + ADD_DOC][MAX_SIZE];
+		
+		for(int i = 0 ; i < mat.length; i++) {
+			for(int j = 0 ; j < mat[0].length; j++) {
+				mat_cal[i][j] = mat[i][j];
+			}
+		}
+		
+		RealMatrix m = MatrixUtils.createRealMatrix(mat_cal);
 		
 		SingularValueDecomposition svd_model = new SingularValueDecomposition(m);
 		
@@ -24,43 +41,19 @@ public class SVD {
 		Vt = svd_model.getVT();
 		S = svd_model.getS();
 		U = svd_model.getU();
-		*/
-		//
 		
+		_Vt = Vt.getSubMatrix(0, choose_words, 0, Vt.getColumnDimension()-1);
+		_S = S.getSubMatrix(0, choose_words, 0, choose_words);
+		_U = U.getSubMatrix(0, U.getColumnDimension(), 0, choose_words);
 		
-		 // create M-by-N matrix that doesn't have full rank
-	      int M = 5, N = 5;
-	      Matrix B = Matrix.random(5, 3);
-	      Matrix A = Matrix.random(M, N).times(B).times(B.transpose());
-	      System.out.print("A = ");
-	      A.print(9, 6);
-
-	      // compute the singular vallue decomposition
-	      System.out.println("A = U S V^T");
-	      System.out.println();
-	      SingularValueDecomposition s = A.svd();
-	      System.out.print("U = ");
-	      Matrix U = s.getU();
-	      U.print(9, 6);
-	      System.out.print("Sigma = ");
-	      Matrix S = s.getS();
-	      S.print(9, 6);
-	      System.out.print("V = ");
-	      Matrix V = s.getV();
-	      V.print(9, 6);
-	      System.out.println("rank = " + s.rank());
-	      System.out.println("condition number = " + s.cond());
-	      System.out.println("2-norm = " + s.norm2());
-
-	      // print out singular values
-	      System.out.print("singular values = ");
-	      Matrix svalues = new Matrix(s.getSingularValues(), 1);
-	      svalues.print(9, 6);
+		output = _U.multiply(_S).multiply(_Vt);
+		
+		System.out.println(output.getColumnDimension() + "^" + output.getRowDimension());
 	}
 	
 	public void print() {
-		/*System.out.println("U" + U.getRowDimension() + "-" + U.getColumnDimension() + " : " + U.toString());
+		System.out.println("U" + U.getRowDimension() + "-" + U.getColumnDimension() + " : " + U.toString());
 		System.out.println("S" + S.getRowDimension() + "-" + S.getColumnDimension() + " : " + S.toString());
-		System.out.println("V" + V.getRowDimension() + "-" + V.getColumnDimension() + " : " + V.toString());*/
+		System.out.println("V" + V.getRowDimension() + "-" + V.getColumnDimension() + " : " + V.toString());
 	}
 }
