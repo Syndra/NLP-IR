@@ -20,7 +20,7 @@ public class VectorSpaceModel {
 	public float[][] tf_vector;
 	public float[] idf_vector;
 	
-	public float[][] weight_vector;
+	public double[][] weight_vector;
 	
 	public VectorSpaceModel(Script[] scripts, int N) {
 		
@@ -59,7 +59,7 @@ public class VectorSpaceModel {
 		 */
 		tf_vector = new float[numOfScript][N];
 		idf_vector = new float[N];
-		weight_vector = new float[numOfScript][N];
+		weight_vector = new double[numOfScript][N];
 		
 		for(int i = 0 ; i < numOfScript; i ++) 
 		{
@@ -150,13 +150,13 @@ public class VectorSpaceModel {
 		}
 	}
 	
-	private float getAngle(float[] source, float[] target) {
+	private float getAngle(float[] source, double[] target) {
 		float result = 0;
 		float temp = 0;
 		float cos = 0;
 		
 		float sourceSize = vectorSize(source);
-		float targetSize = vectorSize(target);
+		double targetSize = vectorSize(target);
 		
 		for(int i = 0; i < N; i ++) {
 			temp += source[i] * target[i];
@@ -179,6 +179,16 @@ public class VectorSpaceModel {
 		}
 		
 		return (float) Math.sqrt(res);
+	}
+	
+	private double vectorSize(double[] vector) {
+		float res = 0;
+		
+		for(int i = 0; i<vector.length; i++) {
+			res += vector[i]*vector[i];
+		}
+		
+		return (double) Math.sqrt(res);
 	}
 	
 	private float[] reverse(float[] array) {

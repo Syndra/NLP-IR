@@ -27,7 +27,7 @@ public class Main {
 		
 		/* Step 1 */
 		/* Select N, dimension of vectorspace */ 
-		VectorSpaceModel model = new VectorSpaceModel(scripts, 100);	
+		VectorSpaceModel model = new VectorSpaceModel(scripts, 300);	
 		model.build();
 		
 		ArrayList<String> positive = new ArrayList<String>();
@@ -35,9 +35,13 @@ public class Main {
 		
 		/* Step 2 */
 		/* You can add your positive query words */ 
-		positive.add("dancers");
+		positive.add("logan");
 		
 		model.printRank(model.Query(positive, negative));
+		
+		SVD svd = new SVD(model.weight_vector);
+		
+		svd.print();
 		
 		long endTime = System.currentTimeMillis();
 		
