@@ -22,6 +22,10 @@ public class VectorSpaceModel {
 	
 	public double[][] weight_vector;
 	
+	public void post_SVD(double[][] svd_mat) {
+		this.weight_vector = svd_mat;
+	}
+	
 	public VectorSpaceModel(Script[] scripts, int N) {
 		
 		this.numOfScript = scripts.length;
@@ -150,7 +154,7 @@ public class VectorSpaceModel {
 		}
 	}
 	
-	private float getAngle(float[] source, double[] target) {
+	private static float getAngle(float[] source, double[] target) {
 		float result = 0;
 		float temp = 0;
 		float cos = 0;
@@ -158,7 +162,7 @@ public class VectorSpaceModel {
 		float sourceSize = vectorSize(source);
 		double targetSize = vectorSize(target);
 		
-		for(int i = 0; i < N; i ++) {
+		for(int i = 0; i < source.length; i ++) {
 			temp += source[i] * target[i];
 		}
 		
@@ -171,7 +175,28 @@ public class VectorSpaceModel {
 		return result;
 	}
 	
-	private float vectorSize(float[] vector) {
+	public static float getAngle(double[] source, double[] target) {
+		float result = 0;
+		float temp = 0;
+		float cos = 0;
+		
+		double sourceSize = vectorSize(source);
+		double targetSize = vectorSize(target);
+		
+		for(int i = 0; i < source.length; i ++) {
+			temp += source[i] * target[i];
+		}
+		
+		temp /= sourceSize*targetSize;
+		
+		cos = temp;
+		
+		result = (float) Math.acos(cos);
+		
+		return result;
+	}
+	
+	private static float vectorSize(float[] vector) {
 		float res = 0;
 		
 		for(int i = 0; i<vector.length; i++) {
@@ -181,7 +206,7 @@ public class VectorSpaceModel {
 		return (float) Math.sqrt(res);
 	}
 	
-	private double vectorSize(double[] vector) {
+	private static double vectorSize(double[] vector) {
 		float res = 0;
 		
 		for(int i = 0; i<vector.length; i++) {

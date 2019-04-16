@@ -27,21 +27,30 @@ public class Main {
 		
 		/* Step 1 */
 		/* Select N, dimension of vectorspace */ 
-		VectorSpaceModel model = new VectorSpaceModel(scripts, 30);	
+		VectorSpaceModel model = new VectorSpaceModel(scripts, 3000);	
 		model.build();
+		
+		System.out.println("Model Constuction Complete.");
 		
 		ArrayList<String> positive = new ArrayList<String>();
 		ArrayList<String> negative = new ArrayList<String>();
 		
 		/* Step 2 */
 		/* You can add your positive query words */ 
-		positive.add("logan");
+		positive.add("death");
 		
-		model.printRank(model.Query(positive, negative));
+		SVD svd = new SVD(model, 300);
+		System.out.println("SVD Complete.");
 		
-		SVD svd = new SVD(model.weight_vector, 10);
+		model.post_SVD(svd.arrayForm);
 		
-		//svd.print();
+		//svd.print_doc_sim();
+		
+		//svd.print_term_domi();
+		
+		//model.printRank(model.Query(positive, negative));
+		svd.print();
+		svd.print_doc_sim();
 		
 		long endTime = System.currentTimeMillis();
 		
